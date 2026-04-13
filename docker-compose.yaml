@@ -1,0 +1,41 @@
+services:
+
+  caption:
+    build: ./caption
+    image: meenal933/caption:latest
+    container_name: caption-service
+    ports:
+      - "8001:8000"
+    restart: unless-stopped
+    networks:
+      - ai_tools_network
+
+  object:
+    build: ./object
+    image: meenal933/object:latest
+    container_name: object-service
+    ports:
+      - "8002:8001"
+    restart: unless-stopped
+    networks:
+      - ai_tools_network
+
+  frontend:
+    build: ./frontend
+    image: meenal933/spefrontend:latest
+    container_name: frontend-service
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    networks:
+      - ai_tools_network
+    depends_on:
+      - caption
+      - object
+    environment:
+      - REACT_APP_CAPTION_API_URL=http://localhost:8001
+      - REACT_APP_DETECTION_API_URL=http://localhost:8002
+
+networks:
+  ai_tools_network:
+    driver: bridge
