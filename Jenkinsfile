@@ -28,17 +28,14 @@ pipeline {
             }
         }
 
-        stage('Push Images') {
-            steps {
-                sh '''
-                echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-
-                docker push meenal933/caption:latest
-                docker push meenal933/spefrontend:latest
-                docker push meenal933/object:latest
-                '''
-            }
-        }
+      stage('Push Images') {
+    steps {
+        sh '''
+        echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+        docker push meenal933/caption:latest
+        '''
+    }
+}
 
         stage('Deploy to Kubernetes') {
             steps {
