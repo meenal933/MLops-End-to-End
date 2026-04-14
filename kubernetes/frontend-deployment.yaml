@@ -20,6 +20,7 @@ spec:
       containers:
       - name: frontend
         image: meenal933/spefrontend:latest 
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         resources: # Frontend usually needs fewer resources

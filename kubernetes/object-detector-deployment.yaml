@@ -75,6 +75,7 @@ spec:
       containers:
       - name: object-detector
         image: meenal933/object:latest # Your object detection image
+        imagePullPolicy: Always
         ports:
         - name: http-object # Named port for ServiceMonitor
           containerPort: 8001 # Port your app listens on

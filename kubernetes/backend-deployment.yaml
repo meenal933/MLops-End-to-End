@@ -25,6 +25,7 @@ spec:
       initContainers:
       - name: init-caption-model-download
         image: python:3.13-slim # Base image with python/pip
+        
         env:
           - name: HF_HOME
             value: /model-cache/.cache/huggingface
@@ -124,6 +125,7 @@ spec:
       containers:
       - name: backend
         image: meenal933/caption:latest # Your captioning image
+        imagePullPolicy: Always
         ports:
         - name: http-caption # Named port for ServiceMonitor
           containerPort: 8000
