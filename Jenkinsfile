@@ -9,7 +9,7 @@ pipeline {
 
         stage('Clone') {
             steps {
-                git 'https://github.com/meenal933/MLops-End-to-End'
+                git branch: 'main', url: 'https://github.com/meenal933/MLops-End-to-End'
             }
         }
 
