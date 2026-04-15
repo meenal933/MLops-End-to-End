@@ -1,7 +1,7 @@
 // api.js
 
-process.env.REACT_APP_CAPTION_API_URL || "http://localhost:8001";
-process.env.REACT_APP_DETECTION_API_URL || "http://localhost:8002";
+export const CAPTION_API = "/api/caption";
+export const DETECTION_API = "/api/detect";
 
 // Helper function
 const fetchApi = async (url, options, file) => {
