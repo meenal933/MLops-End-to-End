@@ -42,11 +42,16 @@ stage('Push Images') {
 }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                sh '''
-                kubectl apply -f kubernetes/
-                '''
-            }
-        }
+    steps {
+        sh '''
+        kubectl apply -f kubernetes/backend-deployment.yaml
+        kubectl apply -f kubernetes/frontend-deployment.yaml
+        kubectl apply -f kubernetes/object-deployment.yaml
+        
+        kubectl apply -f kubernetes/services/
+        kubectl apply -f kubernetes/ingress/
+        '''
+    }
+}
     }
 }
