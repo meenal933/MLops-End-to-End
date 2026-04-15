@@ -3,26 +3,12 @@ kind: Ingress
 metadata:
   name: image-caption-ingress
   namespace: spe-project
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: ai-tools   # ✅ THIS IS MUST
+    http:
       paths:
-
-      # 🔹 Frontend (UI)
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-service
-            port:
-              number: 80
-
-      # 🔹 Caption API
       - path: /api/caption
         pathType: Prefix
         backend:
@@ -31,11 +17,18 @@ spec:
             port:
               number: 80
 
-      # 🔹 Object Detection API (FIXED)
-      - path: /api/detect
+      - path: /api/object
         pathType: Prefix
         backend:
           service:
             name: object-detector-service
+            port:
+              number: 80
+
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-service
             port:
               number: 80
