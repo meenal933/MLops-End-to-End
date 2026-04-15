@@ -1,7 +1,10 @@
 // api.js
 
-export const CAPTION_API = "/api/caption";
-export const DETECTION_API = "/api/detect";
+const CAPTION_API =
+  process.env.REACT_APP_CAPTION_API_URL || "/api/caption";
+
+const DETECTION_API =
+  process.env.REACT_APP_DETECTION_API_URL || "/api/object";
 
 // Helper function
 const fetchApi = async (url, options, file) => {
