@@ -1,13 +1,19 @@
 fastapi
 uvicorn[standard]
-python-multipart # For file uploads
-Pillow # For image handling
-transformers[torch] # Or [tf] if using TensorFlow
-torch # Or tensorflow
-accelerate # Often needed by transformers
-requests # For potential internal communication or testing
-pytest # For tests
-# requirements.txt for caption and object backends
+python-multipart
+Pillow
+
+# Transformers WITHOUT GPU bloat
+transformers
+
+# CPU-only PyTorch (IMPORTANT FIX)
+torch==2.2.0+cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+accelerate
+requests
+pytest
+
+# Monitoring
 prometheus-client
-# For FastAPI auto-instrumentation (RECOMMENDED):
 prometheus-fastapi-instrumentator
