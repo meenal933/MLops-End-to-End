@@ -1,10 +1,7 @@
 // api.js
 
-export const CAPTION_API =
-  process.env.REACT_APP_CAPTION_API_URL || "http://backend-service:8000";
-
-export const DETECTION_API =
-  process.env.REACT_APP_DETECTION_API_URL || "http://object-detector-service:8000";
+process.env.REACT_APP_CAPTION_API_URL || "http://localhost:8001";
+process.env.REACT_APP_DETECTION_API_URL || "http://localhost:8002";
 
 // Helper function
 const fetchApi = async (url, options, file) => {
