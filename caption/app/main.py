@@ -32,7 +32,6 @@ API_PREFIX = "/api"
 app = FastAPI(
     title="Image Caption Generator API",
     description="API to generate captions for images.",
-    root_path=API_PREFIX,
     lifespan=lifespan
 )
 
