@@ -29,7 +29,7 @@ pipeline {
             }
         }
 
-       stage('Push Images') {
+ stage('Push Images') {
     steps {
         sh '''
         echo "$DOCKERHUB_CREDENTIALS_PSW" | docker login -u "$DOCKERHUB_CREDENTIALS_USR" --password-stdin
