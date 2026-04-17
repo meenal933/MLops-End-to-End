@@ -41,12 +41,12 @@ stage('Push Images') {
     }
 }
 
-     stage('Deploy to Kubernetes') {
+    stage('Deploy to Kubernetes') {
     steps {
         sh '''
         export KUBECONFIG=/var/jenkins_home/.kube/config
 
-        kubectl get nodes
+        kubectl delete -f kubernetes/backend-deployment.yaml || true
 
         kubectl apply -f kubernetes/backend-deployment.yaml
         kubectl apply -f kubernetes/frontend-deployment.yaml
