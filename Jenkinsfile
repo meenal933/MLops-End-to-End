@@ -51,7 +51,6 @@ stage('Push Images') {
         kubectl apply -f kubernetes/backend-deployment.yaml
         kubectl apply -f kubernetes/frontend-deployment.yaml
         kubectl apply -f kubernetes/object-deployment.yaml
-        kubectl apply -f kubernetes/prometheus-deployment.yaml
         '''
     }
 }
