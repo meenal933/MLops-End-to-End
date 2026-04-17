@@ -12,7 +12,6 @@ function App() {
   const [objects, setObjects] = useState("");
   const [error, setError] = useState("");
 
-  // ✅ Handle image selection
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -24,7 +23,7 @@ function App() {
     }
   };
 
-  // ✅ Generate Caption
+  // ✅ FIXED
   const handleCaption = async () => {
     if (!selectedImage) {
       setError("Please select an image first");
@@ -35,12 +34,9 @@ function App() {
       setError("");
       setCaption("Generating caption...");
 
-      const formData = new FormData();
-      formData.append("file", selectedImage);
+      // 🔥 PASS FILE DIRECTLY (not FormData)
+      const data = await uploadImageAndGetCaption(selectedImage);
 
-      const data = await uploadImageAndGetCaption(formData);
-
-      // ✅ SAFE parsing (NO double read)
       setCaption(data.caption || JSON.stringify(data));
     } catch (err) {
       console.error(err);
@@ -49,7 +45,7 @@ function App() {
     }
   };
 
-  // ✅ Detect Objects
+  // ✅ FIXED
   const handleDetect = async () => {
     if (!selectedImage) {
       setError("Please select an image first");
@@ -60,10 +56,8 @@ function App() {
       setError("");
       setObjects("Detecting objects...");
 
-      const formData = new FormData();
-      formData.append("file", selectedImage);
-
-      const data = await uploadImageAndDetectObjects(formData);
+      // 🔥 PASS FILE DIRECTLY
+      const data = await uploadImageAndDetectObjects(selectedImage);
 
       setObjects(JSON.stringify(data));
     } catch (err) {
