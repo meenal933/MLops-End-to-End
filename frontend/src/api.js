@@ -1,23 +1,19 @@
-// src/api.js
-
 const BASE_URL = "/api";
 
-// ✅ Generate Caption
-export const generateCaption = async (formData) => {
+// ✅ OLD NAME FIXED (for Jenkins build)
+export const uploadImageAndGetCaption = async (formData) => {
   try {
     const response = await fetch(`${BASE_URL}/caption`, {
       method: "POST",
       body: formData,
     });
 
-    // ❗ handle error properly
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText);
     }
 
-    // ✅ read ONLY once
-    const data = await response.json();
+    const data = await response.json(); // ✅ read once
     return data;
 
   } catch (error) {
