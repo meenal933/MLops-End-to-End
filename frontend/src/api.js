@@ -1,7 +1,7 @@
 // api.js
 
-const CAPTION_API = "/api/caption";   // NOT /predict
-const DETECTION_API = "/api/object";
+const CAPTION_API_BASE_URL = process.env.REACT_APP_CAPTION_API_BASE_URL;
+const DETECTION_API_BASE_URL = process.env.REACT_APP_DETECTION_API_BASE_URL;
 
 // Helper function
 const fetchApi = async (url, options, file) => {
