@@ -3,110 +3,19 @@ kind: Deployment
 metadata:
   name: backend-deployment
   namespace: spe-project
-  labels:
-    app: image-caption-backend
-
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: image-caption-backend
-
+      app: backend
   template:
     metadata:
       labels:
-        app: image-caption-backend
-
+        app: backend
     spec:
-      volumes:
-        - name: shared-model-cache-volume
-          persistentVolumeClaim:
-            claimName: shared-model-cache-pvc
-
-      initContainers:
-        - name: init-caption-model-download
-          image: python:3.13-slim
-          env:
-            - name: HF_HOME
-              value: /model-cache/.cache/huggingface
-            - name: TRANSFORMERS_CACHE
-              value: /model-cache/.cache/huggingface
-          volumeMounts:
-            - name: shared-model-cache-volume
-              mountPath: /model-cache
-
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              echo "Checking model..."
-              MARKER_FILE="/model-cache/caption_model_downloaded.marker"
-
-              if [ ! -f "$MARKER_FILE" ]; then
-                echo "Downloading model..."
-
-                apt-get update && apt-get install -y build-essential cmake pkg-config
-                pip install --no-cache-dir transformers torch huggingface_hub sentencepiece pillow
-
-                python -c "
-from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
-model_name = 'nlpconnect/vit-gpt2-image-captioning'
-cache_dir = '/model-cache/.cache/huggingface'
-
-VisionEncoderDecoderModel.from_pretrained(model_name, cache_dir=cache_dir)
-ViTImageProcessor.from_pretrained(model_name, cache_dir=cache_dir)
-AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
-print('Model downloaded')
-"
-
-                touch "$MARKER_FILE"
-              else
-                echo "Model already exists"
-              fi
-
       containers:
         - name: backend
           image: meenal933/caption:latest
           imagePullPolicy: Always
-
           ports:
-            - containerPort: 8000
-
-          env:
-            - name: HF_HOME
-              value: /model-cache/.cache/huggingface
-            - name: TRANSFORMERS_CACHE
-              value: /model-cache/.cache/huggingface
-
-          volumeMounts:
-            - name: shared-model-cache-volume
-              mountPath: /model-cache
-
-          resources:
-            requests:
-              memory: "2Gi"
-              cpu: "500m"
-            limits:
-              memory: "4Gi"
-              cpu: "1000m"
-
-          # ✅ VERY IMPORTANT (this fixes your issue)
-          startupProbe:
-            httpGet:
-              path: /
-              port: 8000
-            failureThreshold: 30
-            periodSeconds: 10
-
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8000
-            initialDelaySeconds: 30
-            periodSeconds: 10
-
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 8000
-            initialDelaySeconds: 60
-            periodSeconds: 20
+            - containerPort: 5000
