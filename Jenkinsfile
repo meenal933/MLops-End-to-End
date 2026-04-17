@@ -41,19 +41,17 @@ stage('Push Images') {
     }
 }
 
-      stage('Deploy to Kubernetes') {
+     stage('Deploy to Kubernetes') {
     steps {
         sh '''
+        export KUBECONFIG=/var/jenkins_home/.kube/config
+
+        kubectl get nodes
+
         kubectl apply -f kubernetes/backend-deployment.yaml
-        kubectl apply -f kubernetes/backend-service.yaml
-
         kubectl apply -f kubernetes/frontend-deployment.yaml
-        kubectl apply -f kubernetes/frontend-service.yaml
-
-        kubectl apply -f kubernetes/object-detector-deployment.yaml
-        kubectl apply -f kubernetes/object-detector-service.yaml
-
-        kubectl apply -f kubernetes/ingress.yaml
+        kubectl apply -f kubernetes/object-deployment.yaml
+        kubectl apply -f kubernetes/prometheus-deployment.yaml
         '''
     }
 }
