@@ -1,6 +1,6 @@
 const BASE_URL = "/api";
 
-// ✅ OLD NAME FIXED (for Jenkins build)
+// ✅ Caption API
 export const uploadImageAndGetCaption = async (formData) => {
   try {
     const response = await fetch(`${BASE_URL}/caption`, {
@@ -13,8 +13,7 @@ export const uploadImageAndGetCaption = async (formData) => {
       throw new Error(errorText);
     }
 
-    const data = await response.json(); // ✅ read once
-    return data;
+    return await response.json(); // ✅ only once
 
   } catch (error) {
     console.error("Caption Error:", error);
@@ -23,8 +22,8 @@ export const uploadImageAndGetCaption = async (formData) => {
 };
 
 
-// ✅ Detect Objects
-export const detectObjects = async (formData) => {
+// ✅ Detect Objects API
+export const uploadImageAndDetectObjects = async (formData) => {
   try {
     const response = await fetch(`${BASE_URL}/detect`, {
       method: "POST",
@@ -36,8 +35,7 @@ export const detectObjects = async (formData) => {
       throw new Error(errorText);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 
   } catch (error) {
     console.error("Detection Error:", error);
